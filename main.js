@@ -6,7 +6,7 @@ let config = {
   cellSize: 15,
 
   //Speed
-  frameRate: 50,
+  frameRate: 60,
 
   //Init
   startUpCells: 20,
@@ -26,15 +26,46 @@ let config = {
 }
 
 var cycling = 0
-var cycleSpeed = 1
+var cycleSpeed = 40
 var livingCells = new Set()
+var livingCellsConfig= new Map()
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+class CellConfig {
+  constructor() {
+    this.size = config.initialSize;
+    this.shouldGrow = true;
+
+    this.thresholdSize = getRandomInt(this.size, config.thresholdSizeMax);
+    this.finalSize = getRandomInt(config.finalSizeMin,config.finalSizeMax);
+    this.speedOfGrowth = getRandomInt(config.speedOfGrowthMin,config.speedOfGrowthMax);
+
+    this.strokeColor = getRandomInt(0,222);
+    this.strokeWeight = getRandomInt(config.strokeWeightMin, config.strokeWeightMax);
+  }
+
+  updateSize() {
+    if (this.shouldGrow) {
+      this.size = this.size + this.speedOfGrowth;
+      if (this.size >= this.thresholdSize) this.shouldGrow = false;
+    } else if (this.size > this.finalSize) {
+      this.size = this.size - this.speedOfGrowth;
+    }
+  }
+}
+
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  livingCells.add(cantor(1, 1))
-  livingCells.add(cantor(2,1))
-  livingCells.add(cantor(3,1))
-  frameRate(10)
+  // livingCells.add(cantor(1, 1))
+  // livingCells.add(cantor(2,1))
+  // livingCells.add(cantor(3,1))
+  frameRate(config.frameRate)
 }
 
 function windowResized() {
@@ -42,8 +73,8 @@ function windowResized() {
 }
 function cycle(){
   cycling++
-  // if (cycleSpeed != 0 && cycle % cycleSpeed != 0) return;
-  // cycle = 0
+  if (cycleSpeed != 0 && cycling % cycleSpeed != 0) return;
+  cycling = 0
   calculateNextLivingCells()
 }
 
@@ -93,12 +124,14 @@ function neighboursDeadCells() {
 
 function calculateNextLivingCells() {
   let newLivingCells = new Set()
+  let newLivingCellsConfig = new Map()
   let deadCells = neighboursDeadCells()
 
   livingCells.forEach((cell) => {
     let nbrOfAliveNeighbours = aliveNeighbours(cell).size
     if (nbrOfAliveNeighbours === 2 || nbrOfAliveNeighbours === 3) {
       newLivingCells.add(cell)
+      newLivingCellsConfig.set(cell, new CellConfig())
     }
   })
 
@@ -106,19 +139,21 @@ function calculateNextLivingCells() {
     let nbrOfAliveNeighbours = aliveNeighbours(cell).size
     if (nbrOfAliveNeighbours === 3){
         newLivingCells.add(cell)
+        newLivingCellsConfig.set(cell, new CellConfig())
     }
   })
 
   livingCells = newLivingCells
+  livingCellsConfig = newLivingCellsConfig
 }
 function displayCell(cell){
   let {x,y} = uncantor(cell)
-
-  strokeWeight(Math.random());
-  stroke(230);
+  let cellConfig = livingCellsConfig.get(cell)
+  strokeWeight(cellConfig.strokeWeight);
+  stroke(cellConfig.strokeColor);
   noFill();
-  let size = 3;
-  ellipse(x * config.cellSize, y * config.cellSize, size, size);
+  cellConfig.updateSize()
+  ellipse(x * config.cellSize, y * config.cellSize, cellConfig.size, cellConfig.size);
   console.log(livingCells)
 }
 
@@ -131,5 +166,7 @@ function draw() {
 function mouseDragged() {
   let x = Math.round(mouseX/config.cellSize);
   let y = Math.round(mouseY/config.cellSize);
-  livingCells.add(cantor(x,y));
+  let cell = cantor(x,y)
+  livingCells.add(cell);
+  livingCellsConfig.set(cell,new CellConfig())
 }
