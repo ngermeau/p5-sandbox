@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -38,19 +39,44 @@ q:before, q:after {
   content: '';
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
 body {
-  background-color: #151515;
-  color: white;
+  color: #151515;
+  font-family: 'Poppins', sans-serif;
+  color: #f8f9fa;
 }
 
 .intro{
+  display: flex;
+  /*font-size: 1.333rem;*/
+  flex-direction: column;
+  gap: 0.3rem;
   color: white;
   position: absolute;
-  top: 50%;
+  top: 30%;
+  margin-left: 2rem;
   z-index: 999;
+  text-transform: uppercase;
+  max-width: 50%;
+}
+
+.pronom {
+  font-weight: 500;
+}
+
+.name {
+  font-size: 7.47rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+a {
+  text-decoration: underline;
+  color:#e9ecef;
+  font-weight: 600;
 }

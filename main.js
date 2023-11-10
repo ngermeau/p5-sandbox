@@ -8,9 +8,6 @@ let config = {
   //Speed
   frameRate: 60,
 
-  //Init
-  startUpCells: 20,
-
   //Grid
   backgroundColor: 22,
 
@@ -22,7 +19,8 @@ let config = {
   speedOfGrowthMin: 1,
   speedOfGrowthMax: 3,
   strokeWeightMin: 2,
-  strokeWeightMax: 12
+  strokeWeightMax: 12,
+  colors: ["f8f9fa","e9ecef","dee2e6","ced4da","adb5bd","6c757d","495057","343a40","212529"]
 }
 
 var cycling = 0
@@ -44,7 +42,7 @@ class CellConfig {
     this.finalSize = getRandomInt(config.finalSizeMin,config.finalSizeMax);
     this.speedOfGrowth = getRandomInt(config.speedOfGrowthMin,config.speedOfGrowthMax);
 
-    this.strokeColor = getRandomInt(0,222);
+    this.strokeColor = config.colors[getRandomInt(0,config.colors.length -1)];
     this.strokeWeight = getRandomInt(config.strokeWeightMin, config.strokeWeightMax);
   }
 
@@ -150,17 +148,15 @@ function displayCell(cell){
   let {x,y} = uncantor(cell)
   let cellConfig = livingCellsConfig.get(cell)
   strokeWeight(cellConfig.strokeWeight);
-  stroke(cellConfig.strokeColor);
-  noFill();
+  stroke("#" + cellConfig.strokeColor);
+  noFill()
   cellConfig.updateSize()
   ellipse(x * config.cellSize, y * config.cellSize, cellConfig.size, cellConfig.size);
-  console.log(livingCells)
 }
 
 function draw() {
   background(config.backgroundColor)
   livingCells.forEach(cell => displayCell(cell))
-  console.log("test")
   cycle()
 }
 function mouseDragged() {
@@ -169,4 +165,9 @@ function mouseDragged() {
   let cell = cantor(x,y)
   livingCells.add(cell);
   livingCellsConfig.set(cell,new CellConfig())
+}
+
+function mouseWheel(event) {
+  // cycleSpeed -= round(event.delta);
+  console.log(cycleSpeed)
 }
