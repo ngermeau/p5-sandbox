@@ -13,13 +13,13 @@ let config = {
 
   //Cell
   initialSize: 1,
-  thresholdSizeMax: 20,
+  thresholdSizeMax: 30,
   finalSizeMin: 1,
   finalSizeMax: 20,
   speedOfGrowthMin: 0.2,
   speedOfGrowthMax: 1,
-  strokeWeightMin: 2,
-  strokeWeightMax: 12,
+  strokeWeightMin: 1,
+  strokeWeightMax: 10,
   colors: ["f8f9fa","e9ecef","dee2e6","ced4da","adb5bd","6c757d","495057","343a40","212529"]
 }
 
@@ -172,6 +172,6 @@ function mouseDragged() {
 }
 
 function mouseWheel(event) {
-  // cycleSpeed -= round(event.delta);
+  cycleSpeed -= round(event.count);
   console.log(cycleSpeed)
 }
