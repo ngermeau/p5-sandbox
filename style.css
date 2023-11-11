@@ -46,37 +46,48 @@ table {
 }
 
 body {
-  color: #151515;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Arial', sans-serif;
   color: #f8f9fa;
+  font-size: 12px;
+  overflow: hidden;
 }
 
-.intro{
-  display: flex;
-  /*font-size: 1.333rem;*/
-  flex-direction: column;
-  gap: 0.3rem;
-  color: white;
+.me{
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
   top: 30%;
   margin-left: 2rem;
-  z-index: 999;
-  text-transform: uppercase;
-  max-width: 50%;
-}
-
-.pronom {
-  font-weight: 500;
 }
 
 .name {
-  font-size: 7.47rem;
-  font-weight: 800;
+  font-size: 3.47rem;
+  font-weight: 900;
   text-transform: uppercase;
+  padding: 5px;
+  border: 2px solid white;
+  background: #161616;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  line-height: 1rem;
+}
+
+.intro > div {
+  background: #161616;
 }
 
 a {
   text-decoration: underline;
-  color:#e9ecef;
   font-weight: 600;
+  background: white;
+  display: inline-block;
+  padding: 0px 3px;
+  color: #161616;
 }

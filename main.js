@@ -15,22 +15,25 @@ let config = {
   initialSize: 1,
   thresholdSizeMax: 20,
   finalSizeMin: 1,
-  finalSizeMax: 4,
-  speedOfGrowthMin: 1,
-  speedOfGrowthMax: 3,
+  finalSizeMax: 20,
+  speedOfGrowthMin: 0.2,
+  speedOfGrowthMax: 1,
   strokeWeightMin: 2,
   strokeWeightMax: 12,
   colors: ["f8f9fa","e9ecef","dee2e6","ced4da","adb5bd","6c757d","495057","343a40","212529"]
 }
 
 var cycling = 0
-var cycleSpeed = 40
+var cycleSpeed = 120
 var livingCells = new Set()
 var livingCellsConfig= new Map()
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function getRandomFloat(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 class CellConfig {
@@ -40,7 +43,7 @@ class CellConfig {
 
     this.thresholdSize = getRandomInt(this.size, config.thresholdSizeMax);
     this.finalSize = getRandomInt(config.finalSizeMin,config.finalSizeMax);
-    this.speedOfGrowth = getRandomInt(config.speedOfGrowthMin,config.speedOfGrowthMax);
+    this.speedOfGrowth = getRandomFloat(config.speedOfGrowthMin, config.speedOfGrowthMax)
 
     this.strokeColor = config.colors[getRandomInt(0,config.colors.length -1)];
     this.strokeWeight = getRandomInt(config.strokeWeightMin, config.strokeWeightMax);
@@ -151,7 +154,8 @@ function displayCell(cell){
   stroke("#" + cellConfig.strokeColor);
   noFill()
   cellConfig.updateSize()
-  ellipse(x * config.cellSize, y * config.cellSize, cellConfig.size, cellConfig.size);
+  rectMode(CENTER)
+  rect(x * config.cellSize, y * config.cellSize, cellConfig.size, cellConfig.size);
 }
 
 function draw() {
