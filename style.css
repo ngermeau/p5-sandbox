@@ -83,11 +83,24 @@ body {
   background: #161616;
 }
 
-a {
-  text-decoration: underline;
+.box {
   font-weight: 600;
   background: white;
   display: inline-block;
-  padding: 0px 3px;
+  padding: 0px 5px;
   color: #161616;
 }
+
+a {
+  text-decoration: underline;
+  color: #f8f9fa;
+}
+
+.drag {
+  font-style: italic;
+}
+
+.projects {
+  margin-top: 10px;
+}
+
