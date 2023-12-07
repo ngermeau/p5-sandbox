@@ -15,6 +15,6 @@ function windowResized() {
 
 function draw() {
   background(config.backgroundColor)
-  square(10, 10, 50, 50);
+  square(10, 50, 50);
 }
 
